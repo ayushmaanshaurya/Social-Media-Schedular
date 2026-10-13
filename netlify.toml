@@ -1,11 +1,10 @@
 [build]
-  command = "CI=false npm run build"
+  command = "npm run build"
   publish = "build"
 
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "20.11.0"
   NPM_FLAGS = "--legacy-peer-deps"
-  CI = "false"
 
 [[redirects]]
   from = "/*"
