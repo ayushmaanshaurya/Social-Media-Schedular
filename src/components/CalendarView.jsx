@@ -5,7 +5,7 @@ import "./CalendarView.css";
 export default function CalendarView({ posts }) {
   const navigate = useNavigate();
   const today = new Date();
-  
+
   const [currentDate, setCurrentDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
 
   const year = currentDate.getFullYear();

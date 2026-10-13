@@ -44,7 +44,7 @@ export default function AICaptionModal({
         <p>Transform your caption with AI magic</p>
 
         <div className="ai-button-grid">
-          <button 
+          <button
             className="ai-modal ai-btn-generate"
             onClick={() => handleAction((t) => generateCaption(t, "casual"))}
             disabled={loading || isProcessing}
@@ -53,7 +53,7 @@ export default function AICaptionModal({
             ✨ Generate
           </button>
 
-          <button 
+          <button
             className="ai-modal ai-btn-professional"
             onClick={() => handleAction((t) => generateCaption(t, "professional"))}
             disabled={loading || isProcessing}
@@ -62,7 +62,7 @@ export default function AICaptionModal({
             🎯 Professional
           </button>
 
-          <button 
+          <button
             className="ai-modal ai-btn-viral"
             onClick={() => handleAction((t) => generateCaption(t, "viral"))}
             disabled={loading || isProcessing}
@@ -71,7 +71,7 @@ export default function AICaptionModal({
             🔥 Viral
           </button>
 
-          <button 
+          <button
             className="ai-modal ai-btn-shorten"
             onClick={() => handleAction(shortenCaption)}
             disabled={loading || isProcessing}
@@ -80,7 +80,7 @@ export default function AICaptionModal({
             ✂️ Shorten
           </button>
 
-          <button 
+          <button
             className="ai-modal ai-btn-rewrite"
             onClick={() => handleAction(rewriteCaption)}
             disabled={loading || isProcessing}
@@ -89,7 +89,7 @@ export default function AICaptionModal({
             🔁 Rewrite
           </button>
 
-          <button 
+          <button
             className="ai-modal ai-btn-emojis"
             onClick={() => handleAction(addEmojis)}
             disabled={loading || isProcessing}
@@ -98,7 +98,7 @@ export default function AICaptionModal({
             😍 Add Emojis
           </button>
 
-          <button 
+          <button
             className="ai-modal ai-btn-optimize"
             onClick={() => handleAction(optimizeCaption)}
             disabled={loading || isProcessing}
@@ -107,7 +107,7 @@ export default function AICaptionModal({
             ⚡ Optimize
           </button>
 
-          <button 
+          <button
             className="ai-modal ai-btn-hashtags"
             onClick={() => handleAction(generateHashtags)}
             disabled={loading || isProcessing}
@@ -117,7 +117,7 @@ export default function AICaptionModal({
           </button>
         </div>
 
-        <button 
+        <button
           className="close"
           onClick={onClose}
           disabled={loading || isProcessing}
