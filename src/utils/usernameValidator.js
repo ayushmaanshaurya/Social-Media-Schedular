@@ -12,16 +12,16 @@ export const validateUsername = (username) => {
   }
 
   if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
-    return { 
-      valid: false, 
-      error: "Only letters, numbers, underscores, and hyphens allowed" 
+    return {
+      valid: false,
+      error: "Only letters, numbers, underscores, and hyphens allowed"
     };
   }
 
   if (/(.)\1{2,}/.test(username)) {
-    return { 
-      valid: false, 
-      error: "❌ Cannot have 3+ continuous same characters (e.g., 'aaa', '111')" 
+    return {
+      valid: false,
+      error: "❌ Cannot have 3+ continuous same characters (e.g., 'aaa', '111')"
     };
   }
 

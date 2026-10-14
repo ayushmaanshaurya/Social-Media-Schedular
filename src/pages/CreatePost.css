@@ -556,15 +556,15 @@
   .post-info-bar {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .tone-buttons {
     grid-template-columns: 1fr;
   }
-  
+
   .hashtag-display {
     flex-direction: column;
   }
-  
+
   .row {
     flex-direction: column !important;
   }

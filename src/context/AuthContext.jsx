@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authLoading, setAuthLoading] = useState(false);
-  
+
   const loginWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
     const u = result.user;
