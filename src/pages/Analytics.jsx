@@ -9,7 +9,7 @@ export default function Analytics() {
   useEffect(() => {
     fetchPosts().then((data) => {
       setPosts(Array.isArray(data) ? data : []);
-    })
+    });
   }, []);
 
   const totalViews = posts.reduce((sum, post) => sum + (post.views || 0), 0);
@@ -37,10 +37,6 @@ export default function Analytics() {
 
   const avgViewsPerPost = posts.length > 0 ? Math.round(totalViews / posts.length) : 0;
   const engagementRate = posts.length > 0 ? Math.round(((totalLikes + totalComments + totalShares) / (totalViews || 1)) * 100 * 100) / 100 : 0;
-
-  const bestPlatform = Object.entries(platformMetrics).sort(
-    ([, a], [, b]) => b.views - a.views
-  )[0];
 
   const performanceByDay = posts.reduce((acc, post) => {
     const date = new Date(post.createdAt || Date.now());
@@ -355,7 +351,7 @@ export default function Analytics() {
             <div className="insight">
               <span className="insight-icon">🎯</span>
               <p>
-                Your <strong>{topPerformingContent[0].platform}</strong> content performs best! 
+                Your <strong>{topPerformingContent[0].platform}</strong> content performs best!
                 Focus on similar content to boost engagement.
               </p>
             </div>
@@ -364,7 +360,7 @@ export default function Analytics() {
             <div className="insight">
               <span className="insight-icon">📊</span>
               <p>
-                You're using {Object.entries(typeBreakdown).length} content types. 
+                You're using {Object.entries(typeBreakdown).length} content types.
                 Diversify your content strategy for broader reach!
               </p>
             </div>
@@ -373,7 +369,7 @@ export default function Analytics() {
             <div className="insight">
               <span className="insight-icon">📈</span>
               <p>
-                Your average post gets <strong>{avgViewsPerPost}</strong> views. 
+                Your average post gets <strong>{avgViewsPerPost}</strong> views.
                 Keep posting consistently to grow this number!
               </p>
             </div>

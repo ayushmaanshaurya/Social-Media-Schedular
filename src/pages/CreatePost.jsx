@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { savePost } from "../services/api";
 import PostPreview from "../components/PostPreview";
@@ -7,8 +7,6 @@ import TextToImageModal from "../components/TextToImageModal";
 import AvatarGenerator from "../components/AvatarGenerator";
 import toast from "react-hot-toast";
 import "./CreatePost.css";
-
-const AI_API = "http://localhost:5000/ai/caption";
 
 const PLATFORM_LIMITS = {
   Twitter: 280,
@@ -56,19 +54,18 @@ export default function CreatePost() {
 
   const [showAI, setShowAI] = useState(false);
   const [aiTarget, setAiTarget] = useState("post");
-  const [aiLoading, setAiLoading] = useState(false);
+  const [aiLoading] = useState(false);
 
   const [showTextToImage, setShowTextToImage] = useState(false);
   const [showAvatarGenerator, setShowAvatarGenerator] = useState(false);
-  const [autoSave, setAutoSave] = useState(true);
+  const [autoSave] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const getCharLimit = () => PLATFORM_LIMITS[platform] || 280;
-  const getCharRemaining = () => getCharLimit() - content.length;
-  const getWordCount = () => content.trim() ? content.trim().split(/\s+/).length : 0;
-  const isCharLimitExceeded = () => content.length > getCharLimit();
+  const getCharLimit = useCallback(() => PLATFORM_LIMITS[platform] || 280, [platform]);
+  const getWordCount = useCallback(() => content.trim() ? content.trim().split(/\s+/).length : 0, [content]);
+  const isCharLimitExceeded = useCallback(() => content.length > getCharLimit(), [content.length, getCharLimit]);
 
   const generateHashtagSuggestions = () => {
     const words = content.toLowerCase().split(/\s+/).filter(w => w.length > 4);
@@ -90,7 +87,7 @@ export default function CreatePost() {
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [content, platform, tone]);
+  }, [content, platform, tone, image, activeTab, autoSave]);
 
   useEffect(() => {
     if (location.state?.caption) {
@@ -149,47 +146,15 @@ export default function CreatePost() {
     setYoutubeVideoPreview(videoUrl);
   };
 
-  const generateWithAI = async () => {
-    try {
-      setAiLoading(true);
-
-      const prompt =
-        aiTarget === "post"
-          ? content || "Write a social media post about productivity"
-          : reelCaption || "Write a viral reel caption";
-
-      const res = await fetch(AI_API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-
-      if (!res.ok) throw new Error();
-
-      const data = await res.json();
-
-      aiTarget === "post"
-        ? setContent(data.text)
-        : setReelCaption(data.text);
-
-      toast.success("AI caption generated ✨");
-      setShowAI(false);
-    } catch {
-      toast.error("AI generation failed");
-    } finally {
-      setAiLoading(false);
-    }
-  };
-
   const handleSavePost = () => {
     if (!content || !date) return toast.error("Please fill all fields");
     if (isCharLimitExceeded()) return toast.error(`Character limit exceeded for ${platform}!`);
-    savePost({ 
-      type: "post", 
-      content: content + (hashtags ? " " + hashtags : ""), 
-      platform, 
-      date, 
-      image, 
+    savePost({
+      type: "post",
+      content: content + (hashtags ? " " + hashtags : ""),
+      platform,
+      date,
+      image,
       status: "Upcoming",
       tone,
       wordCount: getWordCount()
@@ -200,12 +165,12 @@ export default function CreatePost() {
 
   const handleSaveDraft = () => {
     if (!content) return toast.error("Write something before saving draft");
-    savePost({ 
-      type: "post", 
-      content, 
-      platform, 
-      date: null, 
-      image, 
+    savePost({
+      type: "post",
+      content,
+      platform,
+      date: null,
+      image,
       status: "Draft",
       tone,
       wordCount: getWordCount()
@@ -297,29 +262,29 @@ export default function CreatePost() {
               </div>
             </div>
 
-            <textarea 
-              value={content} 
+            <textarea
+              value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Write your post content..." 
+              placeholder="Write your post content..."
               className={isCharLimitExceeded() ? 'char-limit-exceeded' : ''}
             />
 
             <div className="tone-selector">
               <label>Post Tone:</label>
               <div className="tone-buttons">
-                <button 
+                <button
                   className={`tone-btn ${tone === 'professional' ? 'active' : ''}`}
                   onClick={() => setTone('professional')}
                 >
                   💼 Professional
                 </button>
-                <button 
+                <button
                   className={`tone-btn ${tone === 'casual' ? 'active' : ''}`}
                   onClick={() => setTone('casual')}
                 >
                   😊 Casual
                 </button>
-                <button 
+                <button
                   className={`tone-btn ${tone === 'viral' ? 'active' : ''}`}
                   onClick={() => setTone('viral')}
                 >
@@ -342,7 +307,7 @@ export default function CreatePost() {
             </div>
 
             <input type="file" accept="image/*" onChange={handleImageUpload} />
-            {image && <img src={image} className="preview-image" />}
+            {image && <img src={image} alt="Uploaded post preview" className="preview-image" />}
 
             <div className="row">
               <select value={platform} onChange={(e) => setPlatform(e.target.value)}>
@@ -376,13 +341,13 @@ export default function CreatePost() {
               </button>
             </div>
 
-            <textarea 
-              value={reelCaption} 
-              onChange={(e) => setReelCaption(e.target.value)} 
+            <textarea
+              value={reelCaption}
+              onChange={(e) => setReelCaption(e.target.value)}
               placeholder="Write your reel caption..."
             />
             <input type="file" accept="video/*" onChange={handleReelUpload} />
-            
+
             {reelVideoPreview && (
               <div className="video-preview-container">
                 <video
@@ -456,7 +421,7 @@ export default function CreatePost() {
               className="input-field"
             />
             <input type="file" accept="video/*" onChange={handleYoutubeUpload} />
-            
+
             {youtubeVideoPreview && (
               <div className="video-preview-container">
                 <video
