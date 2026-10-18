@@ -10,21 +10,25 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authLoading, setAuthLoading] = useState(false);
-  
+
   const loginWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
     const u = result.user;
-    await setDoc(
-      doc(db, "users", u.uid),
-      {
-        name: u.displayName,
-        email: u.email,
-        photo: u.photoURL,
-        role: "user",
-        createdAt: serverTimestamp(),
-      },
-      { merge: true }
-    );
+    try {
+      await setDoc(
+        doc(db, "users", u.uid),
+        {
+          name: u.displayName,
+          email: u.email,
+          photo: u.photoURL,
+          role: "user",
+          createdAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.warn("Firestore write error:", err);
+    }
 
     setUser(u);
   };
@@ -62,9 +66,7 @@ export const AuthProvider = ({ children }) => {
           { merge: true }
         );
       } catch (err) {
-        console.error("Firestore write error (creating user):", err);
-        toast.error("Could not save user to Firestore: check console and Firestore rules.");
-        throw err;
+        console.warn("Firestore write error (creating user):", err);
       }
 
       setUser(u);
@@ -87,7 +89,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await signOut(auth);
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.warn("SignOut error:", err);
+    }
     setUser(null);
   };
 
@@ -106,4 +112,17 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    return {
+      user: null,
+      loginWithGoogle: async () => {},
+      login: async () => {},
+      logout: async () => {},
+      updateUserPhoto: async () => {},
+      authLoading: false,
+    };
+  }
+  return context;
+};
