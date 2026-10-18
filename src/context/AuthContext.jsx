@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { auth, provider, db } from "../firebase";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { doc, setDoc, serverTimestamp, updateDoc } from "firebase/firestore";
