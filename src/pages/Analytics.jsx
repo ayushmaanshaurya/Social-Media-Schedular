@@ -38,9 +38,6 @@ export default function Analytics() {
   const avgViewsPerPost = posts.length > 0 ? Math.round(totalViews / posts.length) : 0;
   const engagementRate = posts.length > 0 ? Math.round(((totalLikes + totalComments + totalShares) / (totalViews || 1)) * 100 * 100) / 100 : 0;
 
-  const bestPlatform = Object.entries(platformMetrics).sort(
-    ([, a], [, b]) => b.views - a.views
-  )[0];
 
   const performanceByDay = posts.reduce((acc, post) => {
     const date = new Date(post.createdAt || Date.now());

@@ -1,8 +1,28 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import App from './App';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+const renderApp = async () => {
+  let result;
+  await act(async () => {
+    result = render(
+      <AuthProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </AuthProvider>
+    );
+  });
+  return result;
+};
+
+test('renders App without crashing', async () => {
+  await renderApp();
+  expect(screen.getByText(/sign in with google/i)).toBeInTheDocument();
+});
+
+test('renders login page heading for unauthenticated users', async () => {
+  await renderApp();
+  expect(screen.getByText(/welcome back/i)).toBeInTheDocument();
 });
