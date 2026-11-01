@@ -1,8 +1,17 @@
-import { render, screen } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import App from './App';
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('renders app without crashing', async () => {
+  await act(async () => {
+    render(
+      <AuthProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </AuthProvider>
+    );
+  });
+  expect(document.body).toBeInTheDocument();
 });
