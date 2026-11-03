@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./Explore.css";
 
@@ -7,46 +7,46 @@ export default function Explore() {
   const [selectedReel, setSelectedReel] = useState(null);
 
   const trendingReels = [
-    { 
+    {
       id: 1,
-      title: "Morning routine reel", 
-      views: "120K", 
+      title: "Morning routine reel",
+      views: "120K",
       platform: "Instagram",
       duration: "0:45",
       gradient: "linear-gradient(135deg, #FF6B6B 0%, #FF8E72 100%)",
       emoji: "⏰"
     },
-    { 
+    {
       id: 2,
-      title: "Before & After transformation", 
-      views: "98K", 
+      title: "Before & After transformation",
+      views: "98K",
       platform: "Instagram",
       duration: "1:23",
       gradient: "linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)",
       emoji: "✨"
     },
-    { 
+    {
       id: 3,
-      title: "Day in my life", 
-      views: "210K", 
+      title: "Day in my life",
+      views: "210K",
       platform: "TikTok",
       duration: "0:58",
       gradient: "linear-gradient(135deg, #A8EDEA 0%, #FED6E3 100%)",
       emoji: "🌅"
     },
-    { 
+    {
       id: 4,
-      title: "Fitness motivation short", 
-      views: "156K", 
+      title: "Fitness motivation short",
+      views: "156K",
       platform: "YouTube Shorts",
       duration: "0:30",
       gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
       emoji: "💪"
     },
-    { 
+    {
       id: 5,
-      title: "Cooking quick recipe", 
-      views: "89K", 
+      title: "Cooking quick recipe",
+      views: "89K",
       platform: "Instagram Reels",
       duration: "1:15",
       gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
@@ -87,8 +87,8 @@ export default function Explore() {
         <h3>🎬 Trending Reels & Shorts</h3>
         <div className="reel-explore-grid">
           {trendingReels.map((reel) => (
-            <div 
-              className="explore-reel-card" 
+            <div
+              className="explore-reel-card"
               key={reel.id}
               onClick={() => setSelectedReel(reel)}
               role="button"
@@ -103,7 +103,7 @@ export default function Explore() {
                 <h4>{reel.title}</h4>
                 <p className="views">{reel.views} views</p>
                 <span className="platform-badge">{reel.platform}</span>
-                <button 
+                <button
                   className="use-reel-btn"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -135,7 +135,7 @@ export default function Explore() {
               <p className="preview-views">{selectedReel.views} views</p>
               <p className="preview-platform">{selectedReel.platform}</p>
               <div className="preview-actions">
-                <button 
+                <button
                   className="use-idea-btn"
                   onClick={() => {
                     navigate("/create", {
@@ -145,7 +145,7 @@ export default function Explore() {
                 >
                   Use This Caption
                 </button>
-                <button 
+                <button
                   className="close-btn"
                   onClick={() => setSelectedReel(null)}
                 >
