@@ -1,13 +1,10 @@
+import '@testing-library/jest-dom';
 import { TextEncoder, TextDecoder } from 'util';
 
-if (typeof global.TextEncoder === 'undefined') {
-  global.TextEncoder = TextEncoder;
-  global.TextDecoder = TextDecoder;
-}
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
-if (typeof global.setImmediate === 'undefined') {
-  global.setImmediate = (fn, ...args) => setTimeout(fn, 0, ...args);
-  global.clearImmediate = (id) => clearTimeout(id);
+if (typeof global.ReadableStream === 'undefined') {
+  const { ReadableStream } = require('stream/web');
+  global.ReadableStream = ReadableStream;
 }
-
-import '@testing-library/jest-dom';

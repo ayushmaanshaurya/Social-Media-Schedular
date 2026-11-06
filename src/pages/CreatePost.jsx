@@ -8,6 +8,7 @@ import AvatarGenerator from "../components/AvatarGenerator";
 import toast from "react-hot-toast";
 import "./CreatePost.css";
 
+
 const PLATFORM_LIMITS = {
   Twitter: 280,
   LinkedIn: 3000,
@@ -57,6 +58,7 @@ export default function CreatePost() {
 
   const [showTextToImage, setShowTextToImage] = useState(false);
   const [showAvatarGenerator, setShowAvatarGenerator] = useState(false);
+  const [autoSave] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -79,13 +81,13 @@ export default function CreatePost() {
   };
 
   useEffect(() => {
-    if (content && activeTab === "post") {
+    if (autoSave && content && activeTab === "post") {
       const timer = setTimeout(() => {
         savePost({ type: "post", content, platform, date: null, image, status: "Draft", tone });
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [content, platform, tone, activeTab, image]);
+  }, [content, platform, tone, autoSave, activeTab, image]);
 
   useEffect(() => {
     if (location.state?.caption) {
@@ -305,7 +307,7 @@ export default function CreatePost() {
             </div>
 
             <input type="file" accept="image/*" onChange={handleImageUpload} />
-            {image && <img src={image} alt="Preview" className="preview-image" />}
+            {image && <img src={image} alt="Post preview" className="preview-image" />}
 
             <div className="row">
               <select value={platform} onChange={(e) => setPlatform(e.target.value)}>

@@ -30,9 +30,9 @@ describe('StatsCards', () => {
 
     await waitFor(() => {
       expect(screen.getByText('2 posts')).toBeInTheDocument(); // Scheduled
-      expect(screen.getAllByText('1 posts')).toHaveLength(2); // Published Today & Pending Approval
-      expect(screen.getByText('370')).toBeInTheDocument(); // Total views 100+50+20+200
     });
+    expect(screen.getAllByText('1 posts')).toHaveLength(2); // Published Today & Pending Approval
+    expect(screen.getByText('370')).toBeInTheDocument(); // Total views 100+50+20+200
   });
 
   test('handles fetch errors gracefully', async () => {
@@ -41,8 +41,8 @@ describe('StatsCards', () => {
     render(<StatsCards />);
 
     await waitFor(() => {
-      expect(screen.getAllByText('0 posts').length).toBeGreaterThan(0);
       expect(screen.getByText('0')).toBeInTheDocument();
     });
+    expect(screen.getAllByText('0 posts').length).toBeGreaterThan(0);
   });
 });

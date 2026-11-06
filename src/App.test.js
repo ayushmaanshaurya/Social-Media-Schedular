@@ -1,26 +1,20 @@
-import { render, screen, act } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from './App';
-
-jest.mock('./context/AuthContext', () => ({
-  useAuth: () => ({
-    user: { uid: 'test-user', displayName: 'Test User' },
-    loginWithGoogle: jest.fn(),
-    login: jest.fn(),
-    logout: jest.fn(),
-    updateUserPhoto: jest.fn(),
-    authLoading: false,
-  }),
-  AuthProvider: ({ children }) => <div>{children}</div>,
-}));
-
-jest.mock('./context/ThemeContext', () => ({
-  useTheme: () => ({ theme: 'light', toggleTheme: jest.fn() }),
-  ThemeProvider: ({ children }) => <div>{children}</div>,
-}));
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 test('renders app without crashing', async () => {
-  await act(async () => {
-    render(<App />);
+  render(
+    <AuthProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </AuthProvider>
+  );
+
+  // AuthContext sets loading to false on onAuthStateChanged which resolves to Login route when unauthenticated
+  await waitFor(() => {
+    expect(screen.getByRole('button', { name: /sign in with google/i })).toBeInTheDocument();
   });
-  expect(screen.getByRole('navigation')).toBeInTheDocument();
+  expect(document.body).toBeInTheDocument();
 });
