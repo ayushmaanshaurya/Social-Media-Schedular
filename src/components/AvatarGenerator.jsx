@@ -1,7 +1,7 @@
 import "./AvatarGenerator.css";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { generateAvatarPlaceholder, generateRandomAvatar } from "../utils/imageGenerator";
+import { generateAvatarPlaceholder } from "../utils/imageGenerator";
 
 export default function AvatarGenerator({ onApply, onClose, loading = false }) {
   const [style, setStyle] = useState("cartoon");
