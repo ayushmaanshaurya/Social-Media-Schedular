@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardSkeleton renders 3 skeleton cards without crashing 1`] = `
+<DocumentFragment>
+  <div
+    class="skeleton-wrapper"
+  >
+    <div
+      class="skeleton-card"
+    >
+      <div
+        class="skeleton-line title"
+      />
+      <div
+        class="skeleton-line"
+      />
+      <div
+        class="skeleton-line small"
+      />
+    </div>
+    <div
+      class="skeleton-card"
+    >
+      <div
+        class="skeleton-line title"
+      />
+      <div
+        class="skeleton-line"
+      />
+      <div
+        class="skeleton-line small"
+      />
+    </div>
+    <div
+      class="skeleton-card"
+    >
+      <div
+        class="skeleton-line title"
+      />
+      <div
+        class="skeleton-line"
+      />
+      <div
+        class="skeleton-line small"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

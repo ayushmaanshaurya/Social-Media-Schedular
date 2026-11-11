@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoaderOverlay renders loader overlay without crashing 1`] = `
+<DocumentFragment>
+  <div
+    class="loader-overlay"
+  >
+    <div
+      class="loader-spinner"
+    />
+  </div>
+</DocumentFragment>
+`;
